@@ -14,4 +14,35 @@
   <div align="center">
     <img src="images/1.png" alt="alt text" style="width:80%;">
   </div>
-  
+
+* 轻量化的优化目标：
+  * 降低参数数量
+  * 减少占用存储空间大小
+  * 降低浮点运算数（FLOPs）
+  * 减轻硬件压力
+>    * 显存（GPU Memory）用于存储训练、推理中的模型参数、梯度和激活值
+>         - 减少显存占用可降低对显卡设备的要求，增加训练批次大小，减少训练时间
+>    * 带宽（Bandwidth）代表数据在处理器和内存之间的传输速度
+>         - 降低带宽占用可以减少因数据传输带来的延迟，提高计算速度。
+>    * 内存（RAM）用于存储训练数据、模型参数和中间计算结果
+>         - 降低内存空间需求可以减少磁盘交换操作，提升训练效率。
+
+
+* 轻量化技术分类：
+  <div align="center">
+    <img src="images/2.png" alt="alt text" style="width:80%;">
+  </div>
+
+* 轻量化模型评估指标：
+  - 参数压缩比（Compression Rate）: 轻量化后模型的参数占原始参数的比例
+  - 内存占用（Memory Footprint）：模型在运行过程中占用的内存大小。较小的内存占用有助于在内存受限的设备上高效运行模型。
+  - 吞吐量（Throughput）：单位时间内模型输出token的数量。高吞吐量表示模型能够更高效地处理大批量数据,适用于需要高处理能力的应用。
+    <div align="center">
+    <img src="images/3.png" alt="alt text" style="width:50%;">
+  </div>
+  - 推理速度（Inference Speed）：模型每次推理所需的时间，通常以毫秒（ms）为单位。高推理速度对于实时应用和用户体验非常重要。
+  - 延迟（Latency）模型从接收到输入到输出结果所需的时间。低延迟对于实时应用（如语音识别、自动驾驶）尤为重要。在LLM推理中，计算公式如下：
+
+    <div align="center">
+    <img src="images/4.png" alt="alt text" style="width:50%;">
+  </div>
