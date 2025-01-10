@@ -160,6 +160,8 @@ $$
 
 * TinyChat ● GPTQ  ● llama.cpp
 
+---
+
 ### 稀疏化技术
 
 * 参数稀疏化
@@ -219,7 +221,7 @@ $$
 >    <img src="images/16.png" alt="alt text" style="width:80%;">
 >  </div>
 
->> end
+
 
 >**问题2**：
 >> 张量核进行计算前，需要进行矩阵数据加载，而加载时张量核空闲，造成了核使用率低
