@@ -38,6 +38,7 @@
     <div align="center">
     <img src="images/3.png" alt="alt text" style="width:50%;">
   </div>
+  
   - 推理速度（Inference Speed）：模型每次推理所需的时间，通常以毫秒（ms）为单位。高推理速度对于实时应用和用户体验非常重要。
   - 延迟（Latency）模型从接收到输入到输出结果所需的时间。低延迟对于实时应用（如语音识别、自动驾驶）尤为重要。在LLM推理中，计算公式如下：
 
