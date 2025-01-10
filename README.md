@@ -194,3 +194,8 @@ $$
 
 2.稀疏注意力机制：
 > 稀疏注意力机制通过限制注意力计算的范围，减少了不必要的计算。例如，使用局部注意力或分块稀疏注意力来降低计算量。
+
+  <div align="center">
+    <img src="images/15.png" alt="alt text" style="width:60%;">
+  </div>
+  
