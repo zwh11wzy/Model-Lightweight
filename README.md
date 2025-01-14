@@ -302,7 +302,7 @@ $$
 * **长度正则化**：当前的损失容易导致蒸馏后的模型产生较短的序列，因此增加了一个正则化到损失函数中，以避免KL散度的累积值过小。
 
 $$
-\nabla \mathcal{L}(\theta) = - \underset{y \sim p_{\theta}}{\mathbb{E}} \left[ \sum_{t=1}^{T} w_t \left( \nabla \sum_{y' \in V} q_{\theta}(y' | y_{<t}, x) \log \frac{p(y' | y_{<t}, x)}{q_{\theta}(y' | y_{<t}, x)} + R_{t+1}^{\text{Norm}} \nabla q_{\theta}(y_t | y_{<t}, x) \right) \right]
+\nabla \mathcal{L}(\theta) = - \mathbb{E}_{y \sim p_{\theta}} \left[ \sum_{t=1}^{T} w_t \left( \nabla \left( \sum_{y' \in V} q_{\theta}(y' | y_{<t}, x) \log \frac{p(y' | y_{<t}, x)}{q_{\theta}(y' | y_{<t}, x)} \right) + R_{t+1}^{\text{Norm}} \nabla q_{\theta}(y_t | y_{<t}, x) \right) \right]
 $$
 
 其中：
