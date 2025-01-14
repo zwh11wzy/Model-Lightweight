@@ -305,6 +305,10 @@ $$
 \nabla \mathcal{L}(\theta) = - \mathbb{E}_{y \sim p_{\theta}} \left[ \sum_{t=1}^{T} w_t \left( \nabla \left( \sum_{y' \in V} q_{\theta}(y' | y_{<t}, x) \log \frac{p(y' | y_{<t}, x)}{q_{\theta}(y' | y_{<t}, x)} \right) + R_{t+1}^{\text{Norm}} \nabla q_{\theta}(y_t | y_{<t}, x) \right) \right]
 $$
 
+ <div align="center">
+   <img src="images/21.png" alt="alt text" style="width:80%;">
+ </div>
+
 其中：
 - $\nabla \mathcal{L}(\theta)$ 表示损失函数的梯度。
 - $y \sim p_{\theta}$ 表示从模型分布中采样。
