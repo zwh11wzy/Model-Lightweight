@@ -343,6 +343,9 @@ $$
  </div>
 
 
+* 经典分解理论：PCA分解
+
+
 * 经典分解理论：SVD分解
 
  <div align="center">
