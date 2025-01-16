@@ -321,3 +321,117 @@ $$
 公式分为两部分：
 - $\nabla \mathcal{L}_{\text{single-part}}$：单步部分，计算每个时间步的损失。
 - $\nabla \mathcal{L}_{\text{Norm-long part}}$：正则化长序列部分，调整序列长度的影响。
+
+**MiniLLM方法在不同体量大模型上的实验结果**
+
+* 与其他知识蒸馏方法相比，MiniLLM方法学到了三种教师大模型更多的知识，性能表现更优。
+
+* MiniLLM方法在各种小规模的学生模型上达到超越原教师模型的性能。
+
+ <div align="center">
+   <img src="images/22.png" alt="alt text" style="width:60%;">
+ </div>
+
+> *表示学生模型性能超越了教师模型。可以用一半的参数达到原本的性能，实验效果优于其他蒸馏方法。
+
+
+### 低秩分解
+
+
+ <div align="center">
+   <img src="images/26.png" alt="alt text" style="width:60%;">
+ </div>
+
+
+* 经典分解理论：SVD分解
+
+ <div align="center">
+   <img src="images/23.png" alt="alt text" style="width:60%;">
+ </div>
+
+* 适应大模型：张量分解技术（分解结构更为复杂的大模型参数）
+
+> * Tucker分解
+> 可以被视作一种高阶PCA. 将张量分解为核心张量在每个mode上与矩阵的乘积
+> 
+>  <div align="center">
+>    <img src="images/24.png" alt="alt text" style="width:60%;">
+>  </div>
+> 
+> * Tensor Train分解
+> 将一个N阶张量分解成了2个二阶张量和N-2个三阶张量的乘积
+> 
+> 
+>  <div align="center">
+>    <img src="images/25.png" alt="alt text" style="width:60%;">
+>  </div>
+
+
+
+
+### 混合张量分解技术
+
+> 在大模型中，张量分解转为以可训练参数的形式存在，形成张量网络，让端到端训练成为可能
+
+ <div align="center">
+   <img src="images/27.png" alt="alt text" style="width:60%;">
+ </div>
+
+> 单独的低秩分解技术存在模型参数规模、计算速度、以及预测效果平衡问题
+
+ <div align="center">
+   <img src="images/28.png" alt="alt text" style="width:60%;">
+ </div>
+
+
+
+### 语素增强的低秩近似技术
+
+ <div align="center">
+   <img src="images/29.png" alt="alt text" style="width:60%;">
+ </div>
+
+
+ <div align="center">
+   <img src="images/30.png" alt="alt text" style="width:60%;">
+ </div>
+
+
+
+
+
+
+### 参数共享
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 结合硬件特点的技术
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### 各类轻量化方法总结
