@@ -404,9 +404,13 @@ $$
 ### 参数共享
 
 
+<div align="center">
+   <img src="images/32.png" alt="alt text" style="width:60%;">
+</div>
 
-
-
+<div align="center">
+   <img src="images/33.png" alt="alt text" style="width:60%;">
+</div>
 
 
 
@@ -419,7 +423,9 @@ $$
 
 ### 结合硬件特点的技术
 
-
+ <div align="center">
+   <img src="images/31.png" alt="alt text" style="width:60%;">
+ </div>
 
 
 
