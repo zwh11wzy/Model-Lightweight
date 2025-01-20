@@ -5,7 +5,7 @@
 > * <span id="jump1">(deepseek fp8)</span>
 > 据悉，**FP8**是一种新的数值表示方式，用于深度学习的计算加速。相比传统的FP32和FP16，FP8进一步压缩了数据位数，极大地提升了硬件计算效率。虽然FP8是由英伟达提出的技术，但DeepSeek-V3是全球首家在超大规模模型上验证了其有效性的模型。这一技术（FP8）至少将显存消耗降低了30%。<span id="jump1">(deepseek fp8)</span>
 >
->* 相较于其他模型使用的MoE模型，DeepSeek-V3使用的**MoE模型**更为精简有效。该架构使用更具细粒度的专家并将一些专家隔离为共享专家，使得每次只需要占用很小比例的子集专家参数就可以完成计算.DeepSeek的MoE是一个突破性的MoE语言模型架构，它通过创新策略，包括细粒度专家细分和共享专家隔离，实现了比现有MoE架构更高的专家专业化和性能。
+>* 相较于其他模型使用的MoE模型，DeepSeek-V3使用的**MoE模型**<span id="jump2">(deepseek MoE)</span>更为精简有效。该架构使用更具细粒度的专家并将一些专家隔离为共享专家，使得每次只需要占用很小比例的子集专家参数就可以完成计算.DeepSeek的MoE是一个突破性的MoE语言模型架构，它通过创新策略，包括细粒度专家细分和共享专家隔离，实现了比现有MoE架构更高的专家专业化和性能。
 >
 > * MLA（多头潜在注意力）机制，**MLA**被引入DeepSeek-V2中，并帮助将KV-cache的内存减少了93.3%。完全由DeepSeek团队自主提出，并最早作为核心机制引入了DeepSeek-V2模型上，极大地降低了缓存使用。
 
@@ -441,47 +441,77 @@ $$
    <img src="images/30.png" alt="alt text" style="width:60%;">
  </div>
 
-> LoRA已经成为大模型时代最常用的模型微调方式，有充分的研究价值。例如 ， 近 期 的 研 究 将LoRA与MoE架构结合，使一部分 LoRA 专注于利用世界知识来解决下游任务，以减轻世界知识边缘遗忘。
+> LoRA已经成为大模型时代最常用的模型微调方式，有充分的研究价值。例如，近期的研究将LoRA与MoE[(deepseek MoE)](#jump2)架构结合，使一部分LoRA专注于利用世界知识来解决下游任务，以减轻世界知识边缘遗忘。
 
 ### 参数共享
 
+* 背景
+> **Q:** MHA(Multi-head Attention)中，每个“头”都需要独立工作，这就需要很多资源（计算量和内存）。当头数很多时，这会变得很麻烦，就像请了很多朋友参加聚会，每个人都要吃饭，费用自然很高。
 
-<div align="center">
-   <img src="images/32.png" alt="alt text" style="width:60%;">
-</div>
+ <div align="center">
+   <img src="images/39.png" alt="alt text" style="width:60%;">
+ </div>
 
-<div align="center">
-   <img src="images/33.png" alt="alt text" style="width:60%;">
-</div>
+> **A**：多个查询头（Query）共享相同的键（Key）和值（Value）矩阵。就像让几个朋友共同用同一个资源，不用每个人都从头开始找。这种共享资源的方式大大减少了需要处理的内容，从而节省了资源。
 
+ <div align="center">
+   <img src="images/40.png" alt="alt text" style="width:80%;">
+ </div>
 
+* 优点：减少了计算的复杂度和内存的占用，可以让模型运行得更快，占用更少的资源
 
+* MQA和GQA在不同数据集上推理速度、预测效果的实验结果分析
 
-
-
-
-
-
+ <div align="center">
+   <img src="images/41.png" alt="alt text" style="width:80%;">
+ </div>
 
 ### 结合硬件特点的技术
 
+* Flash Attention
+  - 减少存取操作次数：
+  
+    减少语言模型自回归计算过程对HBM(内存)访问次数，充分利用SRAM内存，通过**融合计算**，实现一次存取，加速运算；
+
+ <div align="center">
+   <img src="images/42.png" alt="alt text" style="width:80%;">
+ </div>
+
+  - 分块优化计算：
+
+    优化Softmax归一化计算步骤，通过对注意力计算过程中的**K和V矩阵进行分块**，解决超出SRAM缓存问题
+
+ <div align="center">
+   <img src="images/43.png" alt="alt text" style="width:80%;">
+ </div>
 
 
+* **并行解码策略**可减少7.2%的推理时间，提升吞吐量，不影响模型效果
 
+ <div align="center">
+   <img src="images/44.png" alt="alt text" style="width:80%;">
+ </div>
 
-
-
-
-
-
-
-
-
-
+> 递归解码阶段，可以将Detokenize和下一个token的Computing计算在CPU和GPU上**并行计算**，掩盖
+掉前面生成单词的Detokenize的时间
 
 
 ### 各类轻量化方法总结
 
- <div align="center">
-   <img src="images/31.png" alt="alt text" style="width:60%;">
- </div>
+#### 从以下多个角度评价
+
+| 压缩方案 | 最低压缩率 | 是否需要额外训练 | 可否自由控制压缩粒度 | 可优化结构 | 可否加速 | 模型效果 | 可否联合使用 |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 量化 | 32倍 | 通常不需要 | 否 | 全部参数 | 是 | 位宽低时显著变差 | 是 |
+| 稀疏化 | 自适应 | 是 | 是 | 全部参数 | 是 | 稀疏率变大时显著变差 | 是 |
+| 知识蒸馏 | 自适应 | 是 | 是 | 全部参数 | 是 | 属于辅助增强算法 | 是 |
+| 参数共享 | 有限 | 通常不需要 | 是 | 层级结构&块状结构 | 否 | 多层共享效果显著变差 | 是 |
+| 低秩分解 | 自适应 | 是 | 是 | 全部参数 | 一些低阶的分解方案可加速 | 效果保持能力较强 | 是 |
+
+
+---
+
+
+## 大语言模型轻量化技术的未来展望
+
+### 量子计算
