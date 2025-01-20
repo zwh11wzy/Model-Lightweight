@@ -345,6 +345,9 @@ $$
 
 * 经典分解理论：PCA分解
 
+ <div align="center">
+   <img src="images/34.png" alt="alt text" style="width:60%;">
+ </div>
 
 * 经典分解理论：SVD分解
 
@@ -380,29 +383,65 @@ $$
    <img src="images/27.png" alt="alt text" style="width:60%;">
  </div>
 
-> 单独的低秩分解技术存在模型参数规模、计算速度、以及预测效果平衡问题
+> 单独的低秩分解技术存在模型**参数规模**、**计算速度**、以及**预测效果**平衡问题
 
  <div align="center">
    <img src="images/28.png" alt="alt text" style="width:60%;">
  </div>
 
-
-
-### 语素增强的低秩近似技术
+* 通过将矩阵分解和张量火车分解（Tensor Train, TT）结合，平衡Transformer模型推理速度，预测效果和参数规模的平衡问题
 
  <div align="center">
    <img src="images/29.png" alt="alt text" style="width:60%;">
  </div>
 
+* Hypoformer方法在Transformer模型上推理速度、预测效果以及参数规模的实验结果分析 
+
+ <div align="center">
+   <img src="images/35.png" alt="alt text" style="width:60%;">
+ </div>
+
+### 语素增强的低秩近似技术
+
+* 通过语素词嵌入的低秩近似解决原始词向量矩阵的参数量巨大问题
+  
+  1.Transformer语言模型词向量参数量分析
+  
+  * 单词量（大）: $|V|$ 可达到数万甚至数十万
+  * 维度（大）: $d$ 通常为512、768、1024
+  * 词嵌入矩阵（大）: $|V|$ ×$d$
+  * 通过**形态素分割**和**张量积**实现的单词嵌入压缩
+    * 单词维度 >> 形态素维度
+    * 单词数量 >> 形态素数 
+
+  <div align="center">
+    <img src="images/36.png" alt="alt text" style="width:30%;">
+  </div>
+
+  2.传统基于张量积进行embedding压缩
+
+ <div align="center">
+   <img src="images/37.png" alt="alt text" style="width:30%;">
+ </div>
+
+
+* MorphTE方法在词嵌入矩阵模块上的计算与实验分析
+  
+ <div align="center">
+   <img src="images/38.png" alt="alt text" style="width:80%;">
+ </div>
+
+> 通过少数量的、低维的语素向量替代原始的词向量表示矩阵，保持了模型性能，从而减少模型参数
+
+
+* LORA: LOW-RANK ADAPTATION 
+> 冻结模型原参数，仅使用可训练的低秩分解矩阵进行模型高效微调
 
  <div align="center">
    <img src="images/30.png" alt="alt text" style="width:60%;">
  </div>
 
-
-
-
-
+> LoRA已经成为大模型时代最常用的模型微调方式，有充分的研究价值。例如 ， 近 期 的 研 究 将LoRA与MoE架构结合，使一部分 LoRA 专注于利用世界知识来解决下游任务，以减轻世界知识边缘遗忘。
 
 ### 参数共享
 
@@ -426,9 +465,7 @@ $$
 
 ### 结合硬件特点的技术
 
- <div align="center">
-   <img src="images/31.png" alt="alt text" style="width:60%;">
- </div>
+
 
 
 
@@ -444,3 +481,7 @@ $$
 
 
 ### 各类轻量化方法总结
+
+ <div align="center">
+   <img src="images/31.png" alt="alt text" style="width:60%;">
+ </div>
