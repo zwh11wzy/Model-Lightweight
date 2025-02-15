@@ -34,7 +34,7 @@
 ### 分类（以是否包含示例为区分）
 
  <div align="center">
-   <img src="images/1.jpg" alt="alt text" style="width:80%;">
+   <img src="images/1.png" alt="alt text" style="width:80%;">
  </div>
 
 * Zero-Shot-CoT
