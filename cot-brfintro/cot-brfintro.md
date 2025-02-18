@@ -1,5 +1,11 @@
 # 思维链 CoT（Chain of Thought）
 
+一文读懂：思维链 CoT（Chain of Thought）
+https://www.zhihu.com/tardis/zm/art/670907685?source_id=1005
+
+大模型思维链（Chain-of-Thought）技术原理 - 知乎
+https://zhuanlan.zhihu.com/p/629087587
+
 
 - [思维链 CoT（Chain of Thought）](#思维链-cotchain-of-thought)
   - [序言](#序言)
